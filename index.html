@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate Limiting Service</title>
+</head>
+<body>
+  <h1>Find the top score</h1>
+  <button id="api1">Cricket</button>
+  <button id="api2">Soccer</button>
+  <button id="api3">Tennis</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    const api1 = document.getElementById('api1')
+    const api2 = document.getElementById('api2')
+    const api3 = document.getElementById('api3')
+    const output = document.getElementById('output')
+
+    api1.addEventListener('click', () => hitApi(1))
+    api2.addEventListener('click', () => hitApi(2))
+    api3.addEventListener('click', () => hitApi(3))
+
+    async function hitApi(id) {
+      
+      const res = await fetch(`/api${id}`, { method: 'POST' }) 
+        .then(t => t.json())
+        .catch(console.error())
+     
+      output.innerText += `\nResponse: ${res.response}, Calls till now: ${res.callsInAMinute}, TTL: ${res.ttl}`
+    }
+  </script>
+</body>
+</html>
